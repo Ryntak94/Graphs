@@ -30,9 +30,6 @@ class Graph:
         while queue.size() > 0:
             curr = queue.dequeue()
             for key in self.vertices[curr]:
-                # print("loop")
-                # print(self.vertices[curr])
-                # print(key)
                 if key not in res:
                     queue.enqueue(key)
             res.append(curr)
@@ -43,7 +40,22 @@ class Graph:
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        res = [starting_vertex]
+        stack = Stack()
+        stack.push(starting_vertex)
+        curr = starting_vertex
+        while stack.size() > 0:
+            bool = True
+            for key in self.vertices[curr]:
+                if bool and key not in res:
+                    res.append(key)
+                    stack.push(key)
+                    bool = False
+                    curr = key
+            if bool:
+                curr = stack.pop()
+        return print(res)
+
     def dft_recursive(self, starting_vertex):
         """
         Print each vertex in depth-first order
@@ -57,14 +69,43 @@ class Graph:
         starting_vertex to destination_vertex in
         breath-first order.
         """
-        pass  # TODO
+        q = Queue()
+        q.enqueue([starting_vertex])
+        visited = set()
+        while q.size() > 0:
+            path = q.dequeue()
+            v = path[-1]
+            if v not in visited:
+                if v == destination_vertex:
+                    return path
+                visited.add(v)
+                for new_vert in self.vertices[v]:
+                    new_path = list(path)
+                    new_path.append(new_vert)
+                    q.enqueue(new_path)
+        return None
+
     def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
         depth-first order.
         """
-        pass  # TODO
+        s = Stack()
+        s.push([starting_vertex])
+        visited = set()
+        while s.size() > 0:
+            path = s.pop()
+            v = path[-1]
+            if v not in visited:
+                if v == destination_vertex:
+                    return path
+                visited.add(v)
+                for next_vert in self.vertices[v]:
+                    new_path = list(path)
+                    new_path.append(next_vert)
+                    s.push(new_path)
+        return None
 
 
 
